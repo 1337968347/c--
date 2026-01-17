@@ -10,6 +10,8 @@ void printMenu() {
     std::cout << "4. 搜索学生" << std::endl;
     std::cout << "5. 保存数据" << std::endl;
     std::cout << "6. 加载数据" << std::endl;
+    std::cout << "7. 计算平均成绩" << std::endl;
+    std::cout << "8. 按照学习成绩排序" << std::endl;
     std::cout << "0. 退出" << std::endl;
     std::cout << "请输入您的选择: ";
 }
@@ -88,6 +90,12 @@ int main() {
                 break;
             case 6:
                 manager.loadFromFile(filename);
+                break;
+            case 7:
+                manager.calcAvgMaxGrade();
+                break;
+            case 8: 
+                manager.sortStudentsByGrade();
                 break;
             default:
                 std::cout << "Invalid choice. Try again." << std::endl;

@@ -16,4 +16,9 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS) $(TARGET)
 
-.PHONY: all clean
+.PHONY: all clean pointer
+
+# 专门用来跑指针练习的命令: make pointer
+pointer: homework_pointer.cpp
+	$(CXX) $(CXXFLAGS) -o pointer_lesson homework_pointer.cpp
+	./pointer_lesson
