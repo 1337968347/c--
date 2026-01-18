@@ -132,8 +132,8 @@ void StudentManager::loadFromFile(const std::string &filename) {
 
 void StudentManager::calcAvgMaxGrade() const {
   if (students.empty()) {
-      std::cout << "还没有学生数据，无法统计。" << std::endl;
-      return;
+    std::cout << "还没有学生数据，无法统计。" << std::endl;
+    return;
   }
   float sum = 0;
   float max = -1;
@@ -150,8 +150,9 @@ void StudentManager::calcAvgMaxGrade() const {
 
 void StudentManager::sortStudentsByGrade() {
   std::sort(students.begin(), students.end(),
-            [](const Student& a, const Student& b) {
-          
+            [](const Student &a, const Student &b) {
+              // C++ sort 需要返回 bool (true/false)，而不是数字
+              // return true 表示 a 应该排在 b 前面
               return a.getGrade() > b.getGrade(); // 降序：大的在前
             });
   std::cout << "已经排序完成 (按成绩从高到低) ，新的数组是: " << std::endl;
@@ -159,6 +160,50 @@ void StudentManager::sortStudentsByGrade() {
 }
 
 // Homework 7: 请在这里实现 getTopStudent
-const Student* StudentManager::getTopStudent() const {
-    return nullptr; // 先暂时返回空，等您来实现！
+// 提示：
+// 1. 如果 students 是空的，直接返回 nullptr
+// 2. 准备一个指针 const Student* best = &students[0];
+// 3. 遍历数组，如果发现谁的 grade 更高，就让 best 指向谁 (best = &students[i])
+// 4. 最后返回 best
+const Student *StudentManager::getTopStudent() const {
+  if (students.size() == 0)
+    return nullptr;
+
+  const Student *best = &students[0];
+  for (size_t i = 0; i < students.size(); i++) {
+    if (students[i].getGrade() > best->getGrade()) {
+      best = &students[i];
+    }
+  }
+
+  // for (const Student& stu : students) {
+
+  // }
+  return best;
+}
+
+// Homework 8: 统计男女生平均分
+// 提示：
+// 1. 准备四个变量：maleCount, maleTotalGrade, femaleCount, femaleTotalGrade
+// 2. 遍历 students 数组
+// 3. 检查每个学生的 gender (用 getGender() == "男" 或 "Male")
+// 4. 分别累加分数和人数
+// 5. 最后算除法 (记得防除以 0 哦)
+void StudentManager::showGenderStatistics() const {
+  // 请在这里开始您的表演
+  int maleCount = 0, femaleCount = 0;
+  float maleTotalGrade = 0.0, femaleTotalGrade = 0.0;
+  for (size_t i = 0; i < students.size(); i++) {
+    if (students[i].getGender() == "男") {
+      maleCount++;
+      maleTotalGrade += students[i].getGrade();
+    } else {
+      femaleCount++;
+      femaleTotalGrade += students[i].getGrade();
+    }
+  }
+  std::cout << "男生的平均数是： "
+            << (maleCount > 0 ? maleTotalGrade / maleCount : 0) << std::endl;
+  std::cout << "女生的平均数是： "
+            << (femaleCount > 0 ? femaleTotalGrade / femaleCount : 0) << std::endl;
 }

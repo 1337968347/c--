@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits>
+#include "Student.h"
 #include "StudentManager.h"
 
 void printMenu() {
@@ -12,6 +13,8 @@ void printMenu() {
     std::cout << "6. 加载数据" << std::endl;
     std::cout << "7. 计算平均成绩" << std::endl;
     std::cout << "8. 按照学习成绩排序" << std::endl;
+    std::cout << "9. 查找状元" << std::endl;
+    std::cout << "10. 统计男女平均分" << std::endl;
     std::cout << "0. 退出" << std::endl;
     std::cout << "请输入您的选择: ";
 }
@@ -96,6 +99,20 @@ int main() {
                 break;
             case 8: 
                 manager.sortStudentsByGrade();
+                break;
+            case 9: {
+                const Student* top = manager.getTopStudent();
+                if (top != nullptr) {
+                    // 指针访问成员要用箭头 -> 
+                    std::cout << "状元是: " << top->getName() 
+                              << " (成绩: " << top->getGrade() << ")" << std::endl;
+                } else {
+                    std::cout << "班里还没人呢！" << std::endl;
+                }
+                break;
+            }
+            case 10: 
+                manager.showGenderStatistics();
                 break;
             default:
                 std::cout << "Invalid choice. Try again." << std::endl;

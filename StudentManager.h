@@ -21,6 +21,9 @@ public:
   
   // Homework 7: 返回指向最高分学生的指针 (如果没有学生返回 nullptr)
   const Student* getTopStudent() const;
+  
+  // Homework 8: 统计男女生平均分
+  void showGenderStatistics() const;
 
 
 private:
