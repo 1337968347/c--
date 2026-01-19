@@ -19,6 +19,10 @@ double Student::getGrade() const {
     return grade;
 }
 
+bool Student::operator==(const Student& other) const{
+    return other.id == this->id;
+}
+
 std::string Student::getGender() const {
     return gender;
 }

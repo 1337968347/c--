@@ -36,9 +36,52 @@
 - [x] **状态**：已完成
 
 ## 8. 男女生大比拼 (数据统计)
-- [ ] **作业内容**：
+- [x] **作业内容**：
     1. 在 `StudentManager.cpp` 里实现 `showGenderStatistics` 函数。
     2. 统计男生的平均分、女生的平均分。
     3. 别忘了在 `main.cpp` 里加个菜单 "10. 性别统计"。
     4. **挑战**：看看男生厉害还是女生厉害？
+- [x] **状态**：已完成
+
+## 9. 代码现代化改造 (C++11 新语法)
+- [x] **作业内容**：
+    1. 学习 `auto` 关键字：让编译器自己猜变量类型。
+    2. 学习 `Range-based for loop` (范围循环)：像 JS 的 `for...of` 一样遍历数组。
+    3. **任务**：修改 `showGenderStatistics` 函数，把老式的 `for (size_t i = 0...)` 循环改成新式的 `for (const auto& student : students)`。
+- [x] **状态**：已完成
+
+## 10. 函数返回值改造 (std::map)
+- [x] **作业内容**：
+    1. 引入 `<map>` 头文件。
+    2. 修改 `showGenderStatistics`，让它不再直接打印，而是返回一个 `std::map<std::string, double>`。
+    3. 这个 Map 就相当于 JS 里的对象：`{ "男": 80.5, "女": 90.0 }`。
+    4. 在 `main.cpp` 里接收这个返回值，并打印出来。
+- [x] **状态**：已完成
+
+## 11. 运算符重载 (Operator Overloading)
+- [x] **作业内容**：
+    1. **概念**：在 JS 里，`+` 号只能加数字或拼接字符串。在 C++ 里，我们可以让 `Student` 对象也能“相加”！
+    2. **目标**：实现 `Student` 的 `==` 运算符，判断两个学生是不是同一个人（ID 相同）。
+    3. **任务**：
+        - 在 `Student.h` 里声明 `bool operator==(const Student& other) const;`
+        - 在 `Student.cpp` 里实现它：如果 `this->id` 等于 `other.id`，就返回 true。
+        - 在 `main.cpp` 里测试一下：创建两个 ID 一样的学生，看看 `s1 == s2` 是否为真。
+- [x] **状态**：已完成
+
+## 12. 泛型编程初体验 (Templates)
+- [ ] **作业内容**：
+    1. **概念**：在 JS 里，函数参数随便传什么类型都行。在 C++ 里，我们可以用**模板 (Template)** 来实现类似的效果。这叫“泛型编程”。
+    2. **目标**：写一个“万能打印函数” `printAnything`，不管传 `int`、`double` 还是 `string` 给它，它都能打印出来。
+    3. **任务**：
+        - 在 `main.cpp` 的最上面（`main` 函数外面），定义一个模板函数：
+          ```cpp
+          template <typename T>
+          void printAnything(T value) {
+              std::cout << "万能打印: " << value << std::endl;
+          }
+          ```
+        - 在 `main` 函数里试着调用它：
+          - `printAnything(100);`
+          - `printAnything("Hello C++");`
+          - `printAnything(3.14159);`
 - [ ] **状态**：待完成

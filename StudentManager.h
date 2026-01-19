@@ -4,6 +4,7 @@
 #include "Student.h"
 #include <string>
 #include <vector>
+#include <map>
 
 class StudentManager {
 public:
@@ -23,7 +24,7 @@ public:
   const Student* getTopStudent() const;
   
   // Homework 8: 统计男女生平均分
-  void showGenderStatistics() const;
+  std::map<std::string, float> showGenderStatistics() const;
 
 
 private:

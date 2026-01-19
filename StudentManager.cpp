@@ -189,21 +189,22 @@ const Student *StudentManager::getTopStudent() const {
 // 3. 检查每个学生的 gender (用 getGender() == "男" 或 "Male")
 // 4. 分别累加分数和人数
 // 5. 最后算除法 (记得防除以 0 哦)
-void StudentManager::showGenderStatistics() const {
+std::map<std::string, float> StudentManager::showGenderStatistics() const {
   // 请在这里开始您的表演
   int maleCount = 0, femaleCount = 0;
   float maleTotalGrade = 0.0, femaleTotalGrade = 0.0;
-  for (size_t i = 0; i < students.size(); i++) {
-    if (students[i].getGender() == "男") {
+  for (const Student &student : students) {
+    if (student.getGender() == "男") {
       maleCount++;
-      maleTotalGrade += students[i].getGrade();
+      maleTotalGrade += student.getGrade();
     } else {
       femaleCount++;
-      femaleTotalGrade += students[i].getGrade();
+      femaleTotalGrade += student.getGrade();
     }
   }
-  std::cout << "男生的平均数是： "
-            << (maleCount > 0 ? maleTotalGrade / maleCount : 0) << std::endl;
-  std::cout << "女生的平均数是： "
-            << (femaleCount > 0 ? femaleTotalGrade / femaleCount : 0) << std::endl;
+
+  std::map<std::string, float> result;
+  result["male"] = (maleCount > 0 ? maleTotalGrade / maleCount : 0);
+  result["female"] = (femaleCount > 0 ? femaleTotalGrade / femaleCount : 0);
+  return result;
 }

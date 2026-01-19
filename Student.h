@@ -14,6 +14,7 @@ public:
     double getGrade() const;
 
     void display() const;
+    bool operator==(const Student& student) const;
 
     std::string getGender() const;
 
