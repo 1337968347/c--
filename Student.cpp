@@ -1,7 +1,12 @@
 #include "Student.h"
+#include <stdexcept>
 
 Student::Student(int id, std::string name, int age, double grade, std::string gender)
-    : id(id), name(name), age(age), grade(grade), gender(gender) {}
+    : id(id), name(name), age(age), grade(grade), gender(gender) {
+        if(age < 0) {
+            throw std::runtime_error("age 过于小了");
+        }
+    }
 
 int Student::getId() const {
     return id;

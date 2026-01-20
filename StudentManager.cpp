@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <string>
 
 void StudentManager::addStudent(const Student &student) {
@@ -12,7 +13,7 @@ void StudentManager::addStudent(const Student &student) {
               << std::endl;
     return;
   }
-  students.push_back(student);
+  students.push_back(std::make_shared<Student>(student));
   std::cout << "Student added successfully." << std::endl;
 }
 
@@ -37,9 +38,9 @@ void StudentManager::listStudents() const {
   std::cout << "---------------------------------------------------"
             << std::endl;
   for (const auto &student : students) {
-    std::cout << student.getId() << "\t" << student.getName() << "\t"
-              << student.getAge() << "\t" << student.getGrade() << "\t"
-              << student.getGender() << std::endl;
+    std::cout << student->getId() << "\t" << student->getName() << "\t"
+              << student->getAge() << "\t" << student->getGrade() << "\t"
+              << student->getGender() << std::endl;
   }
   std::cout << "---------------------------------------------------"
             << std::endl;
@@ -49,9 +50,9 @@ void StudentManager::searchStudent(int id) const {
   int index = findStudentIndex(id);
   if (index != -1) {
     const auto &student = students[index];
-    std::cout << "Found Student: " << student.getName()
-              << ", Age: " << student.getAge()
-              << ", Grade: " << student.getGrade() << std::endl;
+    std::cout << "Found Student: " << student->getName()
+              << ", Age: " << student->getAge()
+              << ", Grade: " << student->getGrade() << std::endl;
   } else {
     std::cout << "Student not found." << std::endl;
   }
@@ -61,9 +62,9 @@ void StudentManager::searchStudentName(std::string name) const {
   int index = findStudentByNameIndex(name);
   if (index != -1) {
     const auto &student = students[index];
-    std::cout << "Found Student: " << student.getName()
-              << ", Age: " << student.getAge()
-              << ", Grade: " << student.getGrade() << std::endl;
+    std::cout << "Found Student: " << student->getName()
+              << ", Age: " << student->getAge()
+              << ", Grade: " << student->getGrade() << std::endl;
   } else {
     std::cout << "Student not found." << std::endl;
   }
@@ -71,7 +72,7 @@ void StudentManager::searchStudentName(std::string name) const {
 
 int StudentManager::findStudentIndex(int id) const {
   for (size_t i = 0; i < students.size(); ++i) {
-    if (students[i].getId() == id) {
+    if (students[i]->getId() == id) {
       return i;
     }
   }
@@ -80,7 +81,7 @@ int StudentManager::findStudentIndex(int id) const {
 
 int StudentManager::findStudentByNameIndex(std::string name) const {
   for (size_t i = 0; i < students.size(); ++i) {
-    if (students[i].getName() == name) {
+    if (students[i]->getName() == name) {
       return i;
     }
   }
@@ -91,9 +92,9 @@ void StudentManager::saveToFile(const std::string &filename) const {
   std::ofstream outFile(filename);
   if (outFile.is_open()) {
     for (const auto &student : students) {
-      outFile << student.getId() << "," << student.getName() << ","
-              << student.getAge() << "," << student.getGrade() << ","
-              << student.getGender() << "\n";
+      outFile << student->getId() << "," << student->getName() << ","
+              << student->getAge() << "," << student->getGrade() << ","
+              << student->getGender() << "\n";
     }
     outFile.close();
     std::cout << "Data saved to " << filename << std::endl;
@@ -120,7 +121,7 @@ void StudentManager::loadFromFile(const std::string &filename) {
         int age = std::stoi(line.substr(pos2 + 1, pos3 - pos2 - 1));
         double grade = std::stod(line.substr(pos3 + 1, pos4 - pos3 - 1));
         std::string gender = line.substr(pos4 + 1);
-        students.emplace_back(id, name, age, grade, gender);
+        students.push_back(std::make_shared<Student>(id, name, age, grade, gender));
       }
     }
     inFile.close();
@@ -138,7 +139,7 @@ void StudentManager::calcAvgMaxGrade() const {
   float sum = 0;
   float max = -1;
   for (size_t i = 0; i < students.size(); i++) {
-    float cur = students[i].getGrade();
+    float cur = students[i]->getGrade();
     sum += cur;
     if (cur > max) {
       max = cur;
@@ -150,10 +151,10 @@ void StudentManager::calcAvgMaxGrade() const {
 
 void StudentManager::sortStudentsByGrade() {
   std::sort(students.begin(), students.end(),
-            [](const Student &a, const Student &b) {
+            [](const std::shared_ptr<Student> a, const std::shared_ptr<Student> b) {
               // C++ sort 需要返回 bool (true/false)，而不是数字
               // return true 表示 a 应该排在 b 前面
-              return a.getGrade() > b.getGrade(); // 降序：大的在前
+              return a->getGrade() > b->getGrade(); // 降序：大的在前
             });
   std::cout << "已经排序完成 (按成绩从高到低) ，新的数组是: " << std::endl;
   listStudents();
@@ -165,14 +166,14 @@ void StudentManager::sortStudentsByGrade() {
 // 2. 准备一个指针 const Student* best = &students[0];
 // 3. 遍历数组，如果发现谁的 grade 更高，就让 best 指向谁 (best = &students[i])
 // 4. 最后返回 best
-const Student *StudentManager::getTopStudent() const {
+const std::shared_ptr<Student> StudentManager::getTopStudent() const {
   if (students.size() == 0)
     return nullptr;
 
-  const Student *best = &students[0];
+  std::shared_ptr<Student> best = students[0];
   for (size_t i = 0; i < students.size(); i++) {
-    if (students[i].getGrade() > best->getGrade()) {
-      best = &students[i];
+    if (students[i]->getGrade() > best->getGrade()) {
+      best = students[i];
     }
   }
 
@@ -193,13 +194,13 @@ std::map<std::string, float> StudentManager::showGenderStatistics() const {
   // 请在这里开始您的表演
   int maleCount = 0, femaleCount = 0;
   float maleTotalGrade = 0.0, femaleTotalGrade = 0.0;
-  for (const Student &student : students) {
-    if (student.getGender() == "男") {
+  for (auto p1 : students) {
+    if (p1->getGender() == "男") {
       maleCount++;
-      maleTotalGrade += student.getGrade();
+      maleTotalGrade += p1->getGrade();
     } else {
       femaleCount++;
-      femaleTotalGrade += student.getGrade();
+      femaleTotalGrade += p1->getGrade();
     }
   }
 

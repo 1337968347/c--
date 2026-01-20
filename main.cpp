@@ -1,7 +1,9 @@
+#include "GraduateStudent.h"
 #include "Student.h"
 #include "StudentManager.h"
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <string>
 
 void printMenu() {
@@ -20,116 +22,130 @@ void printMenu() {
   std::cout << "请输入您的选择: ";
 }
 
+template <typename T> void printEvenyThing(const T someThing) {
+  std::cout << "万能打印: " << someThing << std::endl;
+}
+
 int main() {
   StudentManager manager;
   const std::string filename = "students.txt";
 
   // Auto load on startup
   manager.loadFromFile(filename);
+  // try{
+    
+  //     Student s1(1, "测试1", -1, 12, "123");
+  //     Student s2(1, "测试2", 11, 12, "123");
+  //     GraduateStudent s3(1, "测试2", 11, 12, "123", "搬砖");
+  //     s3.display();
 
-  Student s1(1, "测试1", 11, 12, "123");
-
-  Student s2(1, "测试2", 11, 12, "123");
-  // int choice;
-  // while (true) {
-  //     printMenu();
-  //     if (!(std::cin >> choice)) {
-  //         std::cin.clear();
-  //         std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
-  //         '\n'); std::cout << "Invalid input. Please enter a number." <<
-  //         std::endl; continue;
-  //     }
-
-  //     if (choice == 0) {
-  //         std::cout << "Exiting..." << std::endl;
-  //         break;
-  //     }
-
-  //     switch (choice) {
-  //         case 1: {
-  //             int id, age;
-  //             std::string name;
-  //             double grade;
-  //             std::string gender;
-
-  //             std::cout << "Enter ID: ";
-  //             std::cin >> id;
-  //             std::cout << "Enter Name: ";
-  //             std::cin >> name; // Note: simple cin >> name reads until
-  //             space. For full names use getline. std::cout << "Enter Age:
-  //             "; std::cin >> age; while ( true ) {
-  //                 std::cout << "请输入年级: 0-100: ";
-  //                 std::cin >> grade;
-  //                 if(grade >= 0 && grade <= 100){
-  //                     break;
-  //                 }
-  //             }
-  //             std::cout << "Enter Gender: ";
-  //             std::cin >> gender;
-
-  //             manager.addStudent(Student(id, name, age, grade, gender));
-  //             break;
-  //         }
-  //         case 2: {
-  //             int id;
-  //             std::cout << "Enter ID to remove: ";
-  //             std::cin >> id;
-  //             manager.removeStudent(id);
-  //             break;
-  //         }
-  //         case 3:
-  //             manager.listStudents();
-  //             break;
-  //         case 4: {
-  //             // int id;
-  //             // std::cout << "Enter ID to search: ";
-  //             // std::cin >> id;
-  //             // manager.searchStudent(id);
-  //             std::string name;
-  //             std::cout << "Enter Name to Search: ";
-  //             std::cin >> name;
-  //             manager.searchStudentName(name);
-  //             break;
-  //         }
-  //         case 5:
-  //             manager.saveToFile(filename);
-  //             break;
-  //         case 6:
-  //             manager.loadFromFile(filename);
-  //             break;
-  //         case 7:
-  //             manager.calcAvgMaxGrade();
-  //             break;
-  //         case 8:
-  //             manager.sortStudentsByGrade();
-  //             break;
-  //         case 9: {
-  //             const Student* top = manager.getTopStudent();
-  //             if (top != nullptr) {
-  //                 // 指针访问成员要用箭头 ->
-  //                 std::cout << "状元是: " << top->getName()
-  //                           << " (成绩: " << top->getGrade() << ")" <<
-  //                           std::endl;
-  //             } else {
-  //                 std::cout << "班里还没人呢！" << std::endl;
-  //             }
-  //             break;
-  //         }
-  //         case 10: {
-  //             std::map<std::string, float> result =
-  //             manager.showGenderStatistics(); for(const auto& item :
-  //             result){
-  //                  std::cout << item.first << ": " << item.second <<
-  //                  std::endl;
-  //             }
-  //             break;
-  //         }
-  //         default:
-  //             std::cout << "Invalid choice. Try again." << std::endl;
-  //     }
+  // } catch (const std::exception& e) {
+  //   std::cerr << "捕获到错误: " << e.what() << std::endl;
   // }
 
-  std::cout << (s1 == s2) << std::endl;
+  int choice;
+  while (true) {
+      printMenu();
+      if (!(std::cin >> choice)) {
+          std::cin.clear();
+          std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+          '\n'); std::cout << "Invalid input. Please enter a number." <<
+          std::endl; continue;
+      }
 
+      if (choice == 0) {
+          std::cout << "Exiting..." << std::endl;
+          break;
+      }
+
+      switch (choice) {
+          case 1: {
+              int id, age;
+              std::string name;
+              double grade;
+              std::string gender;
+
+              std::cout << "Enter ID: ";
+              std::cin >> id;
+              std::cout << "Enter Name: ";
+              std::cin >> name; // Note: simple cin >> name reads until space. For full names use getline. 
+              std::cout << "Enter Age:"; 
+              std::cin >> age; 
+              while ( true ) {
+                  std::cout << "请输入年级: 0-100: ";
+                  std::cin >> grade;
+                  if(grade >= 0 && grade <= 100){
+                      break;
+                  }
+              }
+              std::cout << "Enter Gender: ";
+              std::cin >> gender;
+
+              manager.addStudent(Student(id, name, age, grade, gender));
+              break;
+          }
+          case 2: {
+              int id;
+              std::cout << "Enter ID to remove: ";
+              std::cin >> id;
+              manager.removeStudent(id);
+              break;
+          }
+          case 3:
+              manager.listStudents();
+              break;
+          case 4: {
+              // int id;
+              // std::cout << "Enter ID to search: ";
+              // std::cin >> id;
+              // manager.searchStudent(id);
+              std::string name;
+              std::cout << "Enter Name to Search: ";
+              std::cin >> name;
+              manager.searchStudentName(name);
+              break;
+          }
+          case 5:
+              manager.saveToFile(filename);
+              break;
+          case 6:
+              manager.loadFromFile(filename);
+              break;
+          case 7:
+              manager.calcAvgMaxGrade();
+              break;
+          case 8:
+              manager.sortStudentsByGrade();
+              break;
+          case 9: {
+              const std::shared_ptr<Student> top = manager.getTopStudent();
+              if (top != nullptr) {
+                  // 指针访问成员要用箭头 ->
+                  std::cout << "状元是: " << top->getName()
+                            << " (成绩: " << top->getGrade() << ")" <<
+                            std::endl;
+              } else {
+                  std::cout << "班里还没人呢！" << std::endl;
+              }
+              break;
+          }
+          case 10: {
+              std::map<std::string, float> result =
+              manager.showGenderStatistics(); for(const auto& item :
+              result){
+                   std::cout << item.first << ": " << item.second <<
+                   std::endl;
+              }
+              break;
+          }
+          default:
+              std::cout << "Invalid choice. Try again." << std::endl;
+      }
+  }
+
+  // std::cout << (s1 == s2) << std::endl;
+  // printEvenyThing(100);
+  // printEvenyThing("Hello C++");
+  // printEvenyThing(3.14159);
   return 0;
 }

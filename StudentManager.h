@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 class StudentManager {
 public:
@@ -21,14 +22,14 @@ public:
   void sortStudentsByGrade();
   
   // Homework 7: 返回指向最高分学生的指针 (如果没有学生返回 nullptr)
-  const Student* getTopStudent() const;
+  const std::shared_ptr<Student> getTopStudent() const;
   
   // Homework 8: 统计男女生平均分
   std::map<std::string, float> showGenderStatistics() const;
 
 
 private:
-  std::vector<Student> students;
+  std::vector<std::shared_ptr<Student>> students;
   int findStudentIndex(int id) const;
   int findStudentByNameIndex(std::string name) const;
 };

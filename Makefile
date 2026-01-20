@@ -2,7 +2,7 @@ CXX = g++
 CXXFLAGS = -std=c++11 -Wall
 
 TARGET = student_system
-SRCS = main.cpp Student.cpp StudentManager.cpp
+SRCS = main.cpp Student.cpp StudentManager.cpp GraduateStudent.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 all: $(TARGET)

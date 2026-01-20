@@ -69,7 +69,7 @@
 - [x] **状态**：已完成
 
 ## 12. 泛型编程初体验 (Templates)
-- [ ] **作业内容**：
+- [x] **作业内容**：
     1. **概念**：在 JS 里，函数参数随便传什么类型都行。在 C++ 里，我们可以用**模板 (Template)** 来实现类似的效果。这叫“泛型编程”。
     2. **目标**：写一个“万能打印函数” `printAnything`，不管传 `int`、`double` 还是 `string` 给它，它都能打印出来。
     3. **任务**：
@@ -84,4 +84,35 @@
           - `printAnything(100);`
           - `printAnything("Hello C++");`
           - `printAnything(3.14159);`
+- [x] **状态**：已完成
+
+## 13. 继承与多态 (Inheritance & Polymorphism)
+- [x] **作业内容**：
+    1. **概念**：
+        - **继承**：就像 JS 里的 `class Graduate extends Student`，研究生也是学生，但有自己的特殊属性。
+        - **虚函数 (virtual)**：在 C++ 里，如果你想让子类覆盖父类的方法（Override），父类必须允许（加上 `virtual` 关键字）。JS 里默认都能覆盖，C++ 默认不行。
+    2. **目标**：创建一个 `GraduateStudent` (研究生) 类，继承自 `Student`。
+- [x] **状态**：已完成
+
+## 14. 异常处理 (Exception Handling)
+- [x] **作业内容**：
+    1. **概念**：JS 里有 `try...catch`，C++ 也有！当程序出错时（比如输入年龄 -100），我们不应该让它直接崩溃，而是要“抛出异常”并“捕获处理”。
+    2. **目标**：给 `Student` 类的构造函数加个保险。如果输入的 `age` 小于 0 或大于 150，就报错。
+    3. **任务**：
+        - 修改 `Student.cpp`：在构造函数里检查 `age`。如果 `age < 0`，用 `throw std::runtime_error("年龄不对！");` 扔出一个错误。
+        - 修改 `main.cpp`：用 `try { ... } catch (const std::exception& e) { ... }` 包裹创建学生代码。
+- [x] **状态**：已完成
+
+## 15. 智能指针 (Smart Pointers) - 拒绝内存泄漏
+- [ ] **作业内容**：
+    1. **概念**：
+        - **普通指针**：就像“老式遥控器”，用完必须手动抠电池（`delete`），否则会漏电（内存泄漏）。
+        - **智能指针**：就像“现代声控灯”，没人用时自动关掉！JS 里的变量其实都是智能指针，会自动回收。C++ 里我们要用 `std::shared_ptr`。
+        - **对象切割 (Object Slicing)**：如果把 `GraduateStudent`（大盒子）硬塞进 `vector<Student>`（小盒子），多出来的“研究方向”会被切掉！必须用**指针**来存。
+    2. **目标**：改造 `StudentManager`，用 `std::vector<std::shared_ptr<Student>>` 来存学生。
+    3. **任务**：
+        - **引入头文件**：`#include <memory>`。
+        - **修改容器**：把 `std::vector<Student> students;` 改成 `std::vector<std::shared_ptr<Student>> students;`。
+        - **修改添加逻辑**：`students.push_back(...)` 改成 `students.push_back(std::make_shared<Student>(...));`。
+        - **测试**：试着把一个 `GraduateStudent` 放到这个列表里，看看打印出来是不是还能显示“研究方向”？
 - [ ] **状态**：待完成
