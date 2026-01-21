@@ -7,7 +7,9 @@
 class Student {
 public:
     Student(int id, std::string name, int age, double grade, std::string gender);
-    
+    Student(const Student& other);
+    Student(const Student&& other);
+
     int getId() const;
     std::string getName() const;
     int getAge() const;

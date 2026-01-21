@@ -137,3 +137,34 @@
         - 引入 `<algorithm>`。
         - 使用 `std::find_if` 配合 Lambda 表达式来查找学生。
 - [x] **状态**：已完成
+
+## 18. 移动语义 (Move Semantics)
+- [ ] **作业内容**：
+    1. **概念**：体验“搬家”和“过户”的区别。
+    2. **任务**：
+        - **第一步 (拷贝构造)**：在 `Student.h` 和 `cpp` 里手动写一个拷贝构造函数 `Student(const Student& other)`。让它打印一句 `"Copying [name]..."`，然后老老实实把属性都抄一遍。
+        - **第二步 (移动构造)**：在 `Student.h` 和 `cpp` 里写一个移动构造函数 `Student(Student&& other) noexcept`。
+            - 让它打印一句 `"Moving [name]..."`。
+            - 关键点：对于 `string` 类型的属性（name, gender），使用 `name = std::move(other.name)` 来“抢”资源。
+            - 对于 `int/double` 属性，直接赋值。
+        - **第三步 (测试)**：在 `main.cpp` 的 `main` 函数最前面：
+            - 创建 `s1`。
+            - `Student s2 = s1;` (观察是不是打印了 Copying)
+            - `Student s3 = std::move(s1);` (观察是不是打印了 Moving)
+            - 打印一下 `s1.getName()`，看看它还在不在？
+- [x] **状态**：已完成
+
+## 19. 多线程 (Multithreading)
+- [ ] **作业内容**：
+    1. **场景**：JS 里有 `setInterval` 可以定时做事。C++ 里我们可以开一个“后台线程”来实现自动备份，而且不会卡住主界面！
+    2. **任务**：
+        - **第一步 (定义任务)**：在 `main.cpp` 里写一个函数 `void autoSave(const StudentManager* manager)`。
+            - 搞个死循环 `while(true)`。
+            - 休息 5 秒：`std::this_thread::sleep_for(std::chrono::seconds(5));`。
+            - 保存数据：`manager->saveToFile("backup.txt");`。
+            - 打印一句 `[AutoBackup] Data saved.`。
+        - **第二步 (启动线程)**：在 `main` 函数最开始（创建 manager 之后），启动线程。
+            - `std::thread t(autoSave, &manager);`
+            - `t.detach();` (关键！让它分离出去，在后台自生自灭，不要卡住主线程)。
+        - **第三步 (头文件)**：别忘了 `#include <thread>` 和 `#include <chrono>`。
+- [ ] **状态**：待完成
