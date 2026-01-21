@@ -167,4 +167,4 @@
             - `std::thread t(autoSave, &manager);`
             - `t.detach();` (关键！让它分离出去，在后台自生自灭，不要卡住主线程)。
         - **第三步 (头文件)**：别忘了 `#include <thread>` 和 `#include <chrono>`。
-- [ ] **状态**：待完成
+- [x] **状态**：已完成
