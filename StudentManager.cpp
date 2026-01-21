@@ -1,4 +1,5 @@
 #include "StudentManager.h"
+#include "GraduateStudent.h"
 #include "Student.h"
 #include <algorithm>
 #include <cstddef>
@@ -71,10 +72,14 @@ void StudentManager::searchStudentName(std::string name) const {
 }
 
 int StudentManager::findStudentIndex(int id) const {
-  for (size_t i = 0; i < students.size(); ++i) {
-    if (students[i]->getId() == id) {
-      return i;
-    }
+
+  auto it = std::find_if(students.begin(), students.end(),
+                         [id](const std::shared_ptr<Student> &student) {
+                           return student->getId() == id;
+                         });
+
+  if (it != students.end()) {
+    return it - students.begin();
   }
   return -1;
 }
@@ -92,9 +97,7 @@ void StudentManager::saveToFile(const std::string &filename) const {
   std::ofstream outFile(filename);
   if (outFile.is_open()) {
     for (const auto &student : students) {
-      outFile << student->getId() << "," << student->getName() << ","
-              << student->getAge() << "," << student->getGrade() << ","
-              << student->getGender() << "\n";
+      outFile << student->serialize() << "\n";
     }
     outFile.close();
     std::cout << "Data saved to " << filename << std::endl;
@@ -113,6 +116,7 @@ void StudentManager::loadFromFile(const std::string &filename) {
       size_t pos2 = line.find(',', pos1 + 1);
       size_t pos3 = line.find(',', pos2 + 1);
       size_t pos4 = line.find(',', pos3 + 1);
+      size_t pos5 = line.find(',', pos4 + 1);
 
       if (pos1 != std::string::npos && pos2 != std::string::npos &&
           pos3 != std::string::npos) {
@@ -120,8 +124,15 @@ void StudentManager::loadFromFile(const std::string &filename) {
         std::string name = line.substr(pos1 + 1, pos2 - pos1 - 1);
         int age = std::stoi(line.substr(pos2 + 1, pos3 - pos2 - 1));
         double grade = std::stod(line.substr(pos3 + 1, pos4 - pos3 - 1));
-        std::string gender = line.substr(pos4 + 1);
-        students.push_back(std::make_shared<Student>(id, name, age, grade, gender));
+        std::string gender = line.substr(pos4 + 1, pos5 - pos4 - 1);
+        if (pos5 != std::string::npos) {
+          std::string searchTopic = line.substr(pos5 + 1);
+          students.push_back(std::make_shared<GraduateStudent>(
+              id, name, age, grade, gender, searchTopic));
+        } else {
+          students.push_back(
+              std::make_shared<Student>(id, name, age, grade, gender));
+        }
       }
     }
     inFile.close();
@@ -150,12 +161,13 @@ void StudentManager::calcAvgMaxGrade() const {
 }
 
 void StudentManager::sortStudentsByGrade() {
-  std::sort(students.begin(), students.end(),
-            [](const std::shared_ptr<Student> a, const std::shared_ptr<Student> b) {
-              // C++ sort 需要返回 bool (true/false)，而不是数字
-              // return true 表示 a 应该排在 b 前面
-              return a->getGrade() > b->getGrade(); // 降序：大的在前
-            });
+  std::sort(
+      students.begin(), students.end(),
+      [](const std::shared_ptr<Student> a, const std::shared_ptr<Student> b) {
+        // C++ sort 需要返回 bool (true/false)，而不是数字
+        // return true 表示 a 应该排在 b 前面
+        return a->getGrade() > b->getGrade(); // 降序：大的在前
+      });
   std::cout << "已经排序完成 (按成绩从高到低) ，新的数组是: " << std::endl;
   listStudents();
 }

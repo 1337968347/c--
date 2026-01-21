@@ -115,4 +115,25 @@
         - **修改容器**：把 `std::vector<Student> students;` 改成 `std::vector<std::shared_ptr<Student>> students;`。
         - **修改添加逻辑**：`students.push_back(...)` 改成 `students.push_back(std::make_shared<Student>(...));`。
         - **测试**：试着把一个 `GraduateStudent` 放到这个列表里，看看打印出来是不是还能显示“研究方向”？
-- [ ] **状态**：待完成
+- [x] **状态**：已完成
+
+## 16. 多态文件读写 (Polymorphic File I/O)
+- [ ] **作业内容**：
+    1. **问题**：现在的 `saveToFile` 只会保存普通学生的属性（因为调用的是 `getGrade` 等）。研究生的 `researchTopic` 存不进去，下次加载时就丢了。
+    2. **目标**：让 `saveToFile` 能根据学生类型，自动保存不同的格式。
+    3. **任务**：
+        - **第一步 (虚函数)**：在 `Student.h` 里增加一个虚函数 `virtual std::string serialize() const;`，返回类似 `"1,张三,20,80,男"` 的字符串。
+        - **第二步 (重写)**：在 `GraduateStudent.h` 里重写它，返回 `"1,张三,20,80,男,AI研究"`（多一项）。
+        - **第三步 (修改保存)**：修改 `StudentManager::saveToFile`，不再手写拼接字符串，而是直接调用 `student->serialize()`。
+        - **第四步 (修改加载)**：(选做/挑战) 修改 `loadFromFile`，读取时判断这一行如果有 6 项数据，就创建研究生，否则创建普通学生。
+- [x] **状态**：已完成
+
+## 17. Lambda 表达式与 STL 算法
+- [ ] **作业内容**：
+    1. **概念**：JS 里我们经常用 `array.find(item => item.id === 1)`。C++ 里也有 `std::find_if`！
+    2. **目标**：消灭手写的 `for` 循环查找。
+    3. **任务**：
+        - 修改 `StudentManager::findStudentIndex`。
+        - 引入 `<algorithm>`。
+        - 使用 `std::find_if` 配合 Lambda 表达式来查找学生。
+- [x] **状态**：已完成

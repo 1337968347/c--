@@ -13,11 +13,12 @@ public:
     int getAge() const;
     double getGrade() const;
 
-    virtual void display() const;
     bool operator==(const Student& student) const;
-
+    
     std::string getGender() const;
-
+    virtual void display() const;
+    virtual std::string serialize() const ;
+    
     virtual ~Student(){};
 
 
