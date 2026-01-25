@@ -20,5 +20,13 @@ clean:
 
 # 专门用来跑指针练习的命令: make pointer
 pointer: homework_pointer.cpp
-	$(CXX) $(CXXFLAGS) -o pointer_lesson homework_pointer.cpp
-	./pointer_lesson
+	$(CXX) $(CXXFLAGS) homework_pointer.cpp -o pointer_test
+	./pointer_test
+
+memory: homework_memory.cpp
+	$(CXX) $(CXXFLAGS) homework_memory.cpp -o memory_test
+	./memory_test
+
+linkedlist: homework_linkedlist.cpp
+	$(CXX) $(CXXFLAGS) homework_linkedlist.cpp -o linkedlist_test
+	./linkedlist_test
