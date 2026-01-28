@@ -1,17 +1,18 @@
 # 编译器
 CXX = g++
-# 编译选项
-CXXFLAGS = -std=c++11 -Wall
+# 编译选项: -I 指定头文件路径
+CXXFLAGS = -std=c++11 -Wall -I./libs/include
 
-# 链接库 (Linux 下开发 OpenGL 通常需要这些库)
-# -lGL: OpenGL 核心库
-# -lGLEW: 管理 OpenGL 函数指针
-# -lglfw: 窗口管理库
-# -ldl -lpthread: 系统依赖
-LDFLAGS = -lGL -lGLEW -lglfw -ldl -lpthread
+# 链接选项: -L 指定库文件路径
+# Windows MinGW 需要链接的库:
+# -lglew32: GLEW (使用 DLL 版本)
+# -lglfw3dll: GLFW (使用 DLL 版本，解决 MinGW 版本不兼容问题)
+# -lopengl32: OpenGL 核心
+# -lgdi32, -luser32, -lkernel32: Windows 系统库
+LDFLAGS = -L./libs/lib -lglew32 -lglfw3dll -lopengl32 -lgdi32 -luser32 -lkernel32
 
-# 目标文件名
-TARGET = hello_opengl
+# 目标文件名 (Windows 下通常是 .exe)
+TARGET = hello_opengl.exe
 
 # 源文件
 SRC = main.cpp
