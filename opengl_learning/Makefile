@@ -15,7 +15,7 @@ LDFLAGS = -L./libs/lib -lglew32 -lglfw3dll -lopengl32 -lgdi32 -luser32 -lkernel3
 TARGET = hello_opengl.exe
 
 # 源文件
-SRC = main.cpp
+SRC = main.cpp Shader.cpp
 
 all: $(TARGET)
 

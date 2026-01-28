@@ -78,7 +78,7 @@ int main() {
         glClear(GL_COLOR_BUFFER_BIT);
 
         // 绘制三角形
-        ourShader.use(); // 激活着色器
+        ourShader.use(); 
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
