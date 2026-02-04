@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/split_test.dir/homework_split.cpp.o CMakeFiles/split_test.dir/SimpleMath.cpp.o -o split_test 

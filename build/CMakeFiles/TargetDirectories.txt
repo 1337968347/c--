@@ -1,0 +1,9 @@
+/home/chenyang/my-project/c++/build/CMakeFiles/student_system.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/pointer_test.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/memory_test.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/linkedlist_test.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/recipes_test.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/supermarket_test.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/split_test.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/edit_cache.dir
+/home/chenyang/my-project/c++/build/CMakeFiles/rebuild_cache.dir

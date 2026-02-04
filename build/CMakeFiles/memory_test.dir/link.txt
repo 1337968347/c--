@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/memory_test.dir/homework_memory.cpp.o -o memory_test 

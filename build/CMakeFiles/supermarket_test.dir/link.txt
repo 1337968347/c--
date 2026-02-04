@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/supermarket_test.dir/homework_supermarket.cpp.o -o supermarket_test 
